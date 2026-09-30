@@ -9,8 +9,8 @@ loadEnvConfig(process.cwd())
 
 export default defineCliConfig({
   api: {
-    projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || 'unconfigured',
-    dataset: process.env.NEXT_PUBLIC_SANITY_DATASET || 'production',
+    projectId: process.env.NEXT_SANITY_PROJECT_ID || 'unconfigured',
+    dataset: process.env.NEXT_SANITY_DATASET || 'production',
   },
   typegen: {
     path: [

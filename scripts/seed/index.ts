@@ -24,7 +24,7 @@ const argValue = (name: string) => {
 }
 
 const client = getCliClient({
-  apiVersion: process.env.NEXT_PUBLIC_SANITY_API_VERSION || '2026-09-01',
+  apiVersion: process.env.NEXT_SANITY_API_VERSION || '2026-09-01',
   ...(process.env.SANITY_API_WRITE_TOKEN ? { token: process.env.SANITY_API_WRITE_TOKEN } : {}),
   useCdn: false,
 })
@@ -62,11 +62,11 @@ function block(key: string, text: string) {
 
 async function main() {
   if (!projectId || projectId === 'unconfigured') {
-    throw new Error('NEXT_PUBLIC_SANITY_PROJECT_ID is not set (see .env.example).')
+    throw new Error('NEXT_SANITY_PROJECT_ID is not set (see .env.example).')
   }
   if (dataset === 'production' && !args.includes('--allow-production')) {
     throw new Error(
-      'Refusing to seed placeholder content into "production". Set NEXT_PUBLIC_SANITY_DATASET=development, or pass --allow-production if you really mean it.',
+      'Refusing to seed placeholder content into "production". Set NEXT_SANITY_DATASET=development, or pass --allow-production if you really mean it.',
     )
   }
 
