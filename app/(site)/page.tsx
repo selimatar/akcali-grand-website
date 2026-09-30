@@ -89,7 +89,7 @@ function SurfaceSample({ surface, label }: { surface: 'light' | 'sand' | 'dark';
 
 export default function TokenSpecimenPage() {
   return (
-    <main id="specimen" data-surface="light" className="min-h-screen">
+    <div id="specimen" data-surface="light" className="min-h-screen">
       <div className="mx-auto flex max-w-content flex-col gap-16 px-gutter py-section">
         <header className="flex flex-col gap-4">
           <span className="text-label tracking-eyebrow text-eyebrow uppercase">
@@ -177,6 +177,6 @@ export default function TokenSpecimenPage() {
           </div>
         </section>
       </div>
-    </main>
+    </div>
   )
 }
