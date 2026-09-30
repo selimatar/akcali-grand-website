@@ -20,7 +20,7 @@ export default defineConfig({
   title: 'Akcali Garden of Eden',
   basePath: studioBasePath,
   // A placeholder keeps the Studio bundle building before a project exists; it shows a clear
-  // "project not found" error until NEXT_SANITY_PROJECT_ID is set.
+  // "project not found" error until NEXT_PUBLIC_SANITY_PROJECT_ID is set.
   projectId: projectId || 'unconfigured',
   dataset,
 

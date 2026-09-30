@@ -44,9 +44,9 @@ typecheck and build work on a fresh clone.
 | Variable                         | Where      | Purpose                                                                |
 | -------------------------------- | ---------- | ---------------------------------------------------------------------- |
 | `NEXT_PUBLIC_SITE_URL`           | all        | Public origin, no trailing slash. Canonical URLs, Open Graph, sitemap. |
-| `NEXT_SANITY_PROJECT_ID`  | all        | Sanity project ID                                                      |
-| `NEXT_SANITY_DATASET`     | all        | `production` on the live site, `development` locally                   |
-| `NEXT_SANITY_API_VERSION` | all        | Pinned API version (`YYYY-MM-DD`)                                      |
+| `NEXT_PUBLIC_SANITY_PROJECT_ID`  | all        | Sanity project ID                                                      |
+| `NEXT_PUBLIC_SANITY_DATASET`     | all        | `production` on the live site, `development` locally                   |
+| `NEXT_PUBLIC_SANITY_API_VERSION` | all        | Pinned API version (`YYYY-MM-DD`)                                      |
 | `SANITY_API_READ_TOKEN`          | server     | Viewer token for draft preview. Never expose it to the browser.        |
 | `SANITY_API_WRITE_TOKEN`         | local only | Editor token, used only by `npm run seed`                              |
 | `SANITY_REVALIDATE_SECRET`       | server     | Shared secret between the Sanity webhook and `/api/revalidate`         |
@@ -191,13 +191,19 @@ then becomes the LCP element.
    | Variable                         | Production         | Preview       |
    | -------------------------------- | ------------------ | ------------- |
    | `NEXT_PUBLIC_SITE_URL`           | `https://<domain>` | optional      |
-   | `NEXT_SANITY_PROJECT_ID`  | project ID         | project ID    |
-   | `NEXT_SANITY_DATASET`     | `production`       | `development` |
-   | `NEXT_SANITY_API_VERSION` | `2026-09-01`       | `2026-09-01`  |
+   | `NEXT_PUBLIC_SANITY_PROJECT_ID`  | project ID         | project ID    |
+   | `NEXT_PUBLIC_SANITY_DATASET`     | `production`       | `development` |
+   | `NEXT_PUBLIC_SANITY_API_VERSION` | `2026-09-01`       | `2026-09-01`  |
    | `SANITY_API_READ_TOKEN`          | Viewer token       | Viewer token  |
    | `SANITY_REVALIDATE_SECRET`       | long random string | —             |
 
-   Don't set `SANITY_API_WRITE_TOKEN` on Vercel; it's only for the local seed script.
+   Add the three `NEXT_PUBLIC_SANITY_*` variables as **not Sensitive**: Vercel doesn't allow
+   `NEXT_PUBLIC_*` variables to be Sensitive, because they're built into the browser code (the
+   embedded Studio needs them). They aren't secrets. Keep the tokens and the webhook secret
+   Sensitive.
+
+   Don't set `SANITY_API_WRITE_TOKEN` on Vercel; it's only for the local seed script. Changing any
+   of these needs a **redeploy**: they're built into the code.
 
 3. **Domain:** add it in Vercel, then add `https://<domain>` to the Sanity project's **CORS
    origins** with _Allow credentials_ (the Studio at `/studio` needs it).

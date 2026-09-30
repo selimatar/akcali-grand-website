@@ -40,7 +40,7 @@ export async function sanityFetch<const Query extends string>({
   tags,
 }: FetchOptions<Query>): Promise<ClientReturn<Query, unknown> | null> {
   if (!client) {
-    console.warn('[sanity] NEXT_SANITY_PROJECT_ID is not set; rendering without content.')
+    console.warn('[sanity] NEXT_PUBLIC_SANITY_PROJECT_ID is not set; rendering without content.')
     return null
   }
 
