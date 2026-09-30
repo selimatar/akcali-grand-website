@@ -249,6 +249,16 @@
     outline-offset: 3px;
   }
 
+  /* Script-only focus targets (main, sections reached from the menu) don't need a ring. */
+  :where([tabindex='-1']):focus-visible {
+    outline: none;
+  }
+
+  /* Lock page scroll while a modal dialog (menu, lightbox) is open. */
+  html:has(dialog:modal) {
+    overflow: hidden;
+  }
+
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;

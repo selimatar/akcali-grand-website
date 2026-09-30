@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allowOnly": {
+      "Read": ["./**", "/tmp/claude/**"]
+    },
+    "deny": ["Read(.env*)", "Read(*.pem)", "Read(*.key)", "Read(secrets/**)"]
+  }
+}
