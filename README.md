@@ -99,6 +99,44 @@ loader (`sanity/lib/image-loader.ts`): responsive `srcset`, WebP with JPEG fallb
 Sanity's image CDN doesn't produce AVIF; images deliberately don't go through Vercel image
 optimization, so there's no Vercel image quota to manage.
 
+## Publishing and caching
+
+The homepage is statically generated. Content is fetched at build time with `force-cache` and
+tagged with the Sanity document types it reads (`sanity/lib/fetch.ts`). Visitors never trigger a
+Sanity request.
+
+### Webhook (on-demand revalidation)
+
+When an editor publishes, a Sanity webhook calls `POST /api/revalidate`. The route checks the
+signature, then calls `revalidateTag(<_type>, { expire: 0 })`, so the next visitor gets fresh
+content. Set it up in [sanity.io/manage](https://www.sanity.io/manage) → API → Webhooks:
+
+| Setting         | Value                                                                                 |
+| --------------- | ------------------------------------------------------------------------------------- |
+| URL             | `https://<your-domain>/api/revalidate`                                                |
+| Dataset         | `production`                                                                          |
+| Trigger on      | Create, Update, Delete                                                                |
+| Filter          | `_type in ["siteSettings","homePage","space","amenity","galleryImage","testimonial"]` |
+| Projection      | `{_type, _id}`                                                                        |
+| Drafts/versions | Off                                                                                   |
+| HTTP method     | POST                                                                                  |
+| Secret          | the same value as `SANITY_REVALIDATE_SECRET`                                          |
+
+Responses: `200` revalidated (or ignored type), `401` bad signature, `400` payload without `_type`,
+`500` secret not configured. Webhook deliveries and their responses are listed in the webhook's
+attempt log in sanity.io/manage.
+
+### Draft preview (Studio → Önizleme)
+
+The Studio's **Önizleme** tool (Presentation) shows the site with unpublished changes. It calls
+`/api/draft-mode/enable`, which checks a short-lived secret from the Studio and turns on Next.js
+draft mode. In draft mode, pages read drafts with `SANITY_API_READ_TOKEN`, uncached, with
+click-to-edit overlays. Placeholder testimonials are also shown. Opening the site directly while in
+draft mode shows an "Önizleme modu · Çık" bar; `/api/draft-mode/disable` leaves it.
+
+Requirements: `SANITY_API_READ_TOKEN` (Viewer) on the server, and the site's origin in the
+project's CORS origins with credentials allowed.
+
 ## Design tokens
 
 All colors, type sizes, spacing, radii and motion values live in `styles/globals.css` (Tailwind v4

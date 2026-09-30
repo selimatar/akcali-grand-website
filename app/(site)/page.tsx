@@ -3,6 +3,7 @@ import { Fragment, type ReactNode } from 'react'
 import { AboutSection } from '@/components/sections/AboutSection'
 import { AmenitiesSection } from '@/components/sections/AmenitiesSection'
 import { HeroSection } from '@/components/sections/HeroSection'
+import { LocationSection } from '@/components/sections/LocationSection'
 import { SpacesSection } from '@/components/sections/SpacesSection'
 import { getHome, getSettings } from '@/lib/content'
 import { getVisibleSections, type SectionKey, type VisibleSection } from '@/lib/sections'
@@ -18,6 +19,9 @@ export default async function HomePage() {
   // Section components are added one at a time in step 4.
   const page = home?.page
   const renderers: Partial<Record<SectionKey, (section: VisibleSection) => ReactNode>> = {
+    location: (section) => (
+      <LocationSection section={section} content={page?.locationSection} settings={settings} />
+    ),
     about: (section) => <AboutSection section={section} about={page?.about} />,
     spaces: (section) => (
       <SpacesSection section={section} content={page?.spacesSection} spaces={home?.spaces ?? []} />

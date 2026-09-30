@@ -16,6 +16,15 @@ export const SECTION_IDS = {
 
 export type SectionKey = keyof typeof SECTION_IDS
 
+/**
+ * Sections switched off in code regardless of content. They don't render, aren't in the menu and
+ * don't take a number. Editors can still prepare their content in the Studio.
+ * - gallery: not launching yet (the gallery and lightbox are built later).
+ * - testimonials: not launching yet (the section component is built later).
+ * Remove a key here to launch that section once its component exists.
+ */
+const DISABLED_SECTIONS: ReadonlySet<SectionKey> = new Set(['gallery', 'testimonials'])
+
 export type SectionHeaderData = {
   eyebrow: string | null
   title: string | null
@@ -75,7 +84,7 @@ export function getVisibleSections(
   ]
 
   return candidates
-    .filter((section) => section.visible)
+    .filter((section) => section.visible && !DISABLED_SECTIONS.has(section.key))
     .map((section, index) => ({
       key: section.key,
       id: SECTION_IDS[section.key],

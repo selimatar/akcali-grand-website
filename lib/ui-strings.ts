@@ -7,6 +7,14 @@ export const ui = {
   spaces: {
     guestsUnit: 'davetli', // "650 davetli"
   },
+  location: {
+    openInMaps: 'Haritada aç',
+    mapTitle: 'Mekânın konumu, Google Haritalar',
+  },
+  draftMode: {
+    label: 'Önizleme modu',
+    exit: 'Çık',
+  },
   hero: {
     scrollCue: 'Keşfedin',
   },
