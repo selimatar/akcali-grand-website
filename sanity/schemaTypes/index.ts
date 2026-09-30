@@ -27,14 +27,4 @@ export const schemaTypes: SchemaTypeDefinition[] = [
   richText,
 ]
 
-/** Document types whose changes should revalidate the site (webhook filter + cache tags). */
-export const CONTENT_TYPES = [
-  'siteSettings',
-  'homePage',
-  'space',
-  'amenity',
-  'galleryImage',
-  'testimonial',
-] as const
-
-export type ContentType = (typeof CONTENT_TYPES)[number]
+export { CONTENT_TYPES, type ContentType } from '../contentTypes'
