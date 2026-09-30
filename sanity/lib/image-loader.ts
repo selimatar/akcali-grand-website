@@ -7,8 +7,9 @@ import type { ImageLoaderProps } from 'next/image'
  * resizing, so nothing goes through Vercel image optimization.
  *
  * The `src` from <SanityImage> already carries the crop rectangle (editor crop + hotspot) and the
- * target aspect ratio as w/h; this only rescales to each srcset width. `auto=format` serves AVIF or
- * WebP depending on the browser's Accept header. Non-Sanity sources are passed through.
+ * target aspect ratio as w/h; this only rescales to each srcset width. `auto=format` serves WebP to
+ * browsers that accept it (JPEG otherwise). Sanity's CDN has no AVIF output; routing images through
+ * Vercel image optimization for AVIF was considered and declined. Non-Sanity sources pass through.
  */
 export default function sanityImageLoader({ src, width, quality }: ImageLoaderProps): string {
   if (!src.startsWith('https://cdn.sanity.io/')) {

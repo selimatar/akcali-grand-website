@@ -10,6 +10,8 @@ export type PlaceholderImage = {
   width: number
   height: number
   tone: 'light' | 'dark'
+  /** Print the description on the image. Off for the hero, where the logo sits on top. */
+  caption?: boolean
 }
 
 const photo = (
@@ -30,7 +32,10 @@ const photo = (
 }
 
 export const images = {
-  hero: photo('hero', 'Hero fotoğrafı — akşam ışığında ana salon, avizeler yanık', 'hero', 'dark'),
+  hero: {
+    ...photo('hero', 'Hero fotoğrafı — akşam ışığında ana salon, avizeler yanık', 'hero', 'dark'),
+    caption: false,
+  },
   about: photo(
     'about',
     'Bahçe girişi, çınar ağaçları arasından salona uzanan yol. Gündüz, doğal ışık, dikey 4:5.',

@@ -94,8 +94,10 @@ address and the map coordinates (currently the Arsuz town centre).
 ### Images
 
 `components/sanity/SanityImage.tsx` renders through Sanity's image CDN via a global `next/image`
-loader (`sanity/lib/image-loader.ts`): responsive `srcset`, AVIF/WebP (`auto=format`),
-hotspot-aware cropping and LQIP blur placeholders, with no client-side JavaScript.
+loader (`sanity/lib/image-loader.ts`): responsive `srcset`, WebP with JPEG fallback
+(`auto=format`), hotspot-aware cropping and LQIP blur placeholders, with no client-side JavaScript.
+Sanity's image CDN doesn't produce AVIF; images deliberately don't go through Vercel image
+optimization, so there's no Vercel image quota to manage.
 
 ## Design tokens
 
