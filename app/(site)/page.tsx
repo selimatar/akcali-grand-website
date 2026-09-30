@@ -1,5 +1,6 @@
 import { Fragment, type ReactNode } from 'react'
 
+import { AboutSection } from '@/components/sections/AboutSection'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { getHome, getSettings } from '@/lib/content'
 import { getVisibleSections, type SectionKey, type VisibleSection } from '@/lib/sections'
@@ -13,12 +14,15 @@ export default async function HomePage() {
   const sections = getVisibleSections(home, settings)
 
   // Section components are added one at a time in step 4.
-  const renderers: Partial<Record<SectionKey, (section: VisibleSection) => ReactNode>> = {}
+  const page = home?.page
+  const renderers: Partial<Record<SectionKey, (section: VisibleSection) => ReactNode>> = {
+    about: (section) => <AboutSection section={section} about={page?.about} />,
+  }
 
   return (
     <>
       <HeroSection
-        hero={home?.page?.hero}
+        hero={page?.hero}
         siteName={settings?.siteName}
         nextSectionId={sections[0]?.id ?? null}
       />
