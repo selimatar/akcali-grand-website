@@ -9,15 +9,26 @@
     "start": "next start",
     "lint": "eslint . && node scripts/check-tokens.mjs",
     "typecheck": "next typegen && tsc --noEmit",
+    "typegen": "sanity schema extract --path schema.json --force && sanity typegen generate",
+    "seed": "sanity exec scripts/seed/index.ts --",
     "format": "prettier --write .",
     "format:check": "prettier --check ."
   },
   "dependencies": {
+    "@sanity/icons": "^5.2.3",
+    "@sanity/image-url": "^2.1.1",
+    "@sanity/locale-tr-tr": "^1.2.38",
+    "@sanity/orderable-document-list": "^2.0.25",
+    "@sanity/vision": "^6.16.0",
     "next": "16.3.7",
+    "next-sanity": "^13.3.4",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "sanity": "^6.16.0",
+    "styled-components": "^6.5.3"
   },
   "devDependencies": {
+    "@next/env": "^16.3.7",
     "@tailwindcss/postcss": "^4.3.3",
     "@types/node": "^22",
     "@types/react": "^19",
@@ -27,11 +38,11 @@
     "eslint-config-prettier": "^10.1.8",
     "prettier": "^3.9.9",
     "prettier-plugin-tailwindcss": "^0.8.1",
+    "sharp": "^0.35.5",
     "tailwindcss": "^4.3.3",
     "typescript": "~5.9.3"
   },
   "engines": {
     "node": ">=22.12"
-  },
-  "packageManager": "pnpm@10.33.0"
+  }
 }
