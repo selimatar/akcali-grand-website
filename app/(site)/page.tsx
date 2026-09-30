@@ -1,12 +1,20 @@
+import type { Metadata } from 'next'
 import { Fragment, type ReactNode } from 'react'
 
 import { AboutSection } from '@/components/sections/AboutSection'
 import { AmenitiesSection } from '@/components/sections/AmenitiesSection'
+import { JsonLd } from '@/components/sanity/JsonLd'
 import { HeroSection } from '@/components/sections/HeroSection'
 import { LocationSection } from '@/components/sections/LocationSection'
 import { SpacesSection } from '@/components/sections/SpacesSection'
 import { getHome, getSettings } from '@/lib/content'
 import { getVisibleSections, type SectionKey, type VisibleSection } from '@/lib/sections'
+import { buildHomeMetadata, buildVenueJsonLd } from '@/lib/seo'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const [home, settings] = await Promise.all([getHome(), getSettings()])
+  return buildHomeMetadata(home, settings)
+}
 
 /**
  * Homepage. Statically generated; content comes from Sanity and is refreshed by on-demand
@@ -16,7 +24,7 @@ export default async function HomePage() {
   const [home, settings] = await Promise.all([getHome(), getSettings()])
   const sections = getVisibleSections(home, settings)
 
-  // Section components are added one at a time in step 4.
+  // Gallery and testimonials are switched off in lib/sections.ts and have no component yet.
   const page = home?.page
   const renderers: Partial<Record<SectionKey, (section: VisibleSection) => ReactNode>> = {
     location: (section) => (
@@ -37,6 +45,7 @@ export default async function HomePage() {
 
   return (
     <>
+      <JsonLd data={buildVenueJsonLd(home, settings)} />
       <HeroSection
         hero={page?.hero}
         siteName={settings?.siteName}

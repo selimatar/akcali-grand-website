@@ -33,7 +33,12 @@ export function hasAsset<T extends { asset: { _id: string } | null } | null | un
  */
 export function imageUrl(
   image: ImageSource,
-  { width, height, quality = 75 }: { width: number; height?: number; quality?: number },
+  {
+    width,
+    height,
+    quality = 75,
+    format,
+  }: { width: number; height?: number; quality?: number; format?: 'jpg' },
 ): string {
   let url = builder
     .image({
@@ -43,7 +48,8 @@ export function imageUrl(
     })
     .width(Math.round(width))
     .quality(quality)
-    .auto('format')
+  // Share images (Open Graph) are fetched by social crawlers: plain JPEG is the safe choice there.
+  url = format ? url.format(format) : url.auto('format')
   if (height) url = url.height(Math.round(height)).fit('crop')
   return url.url()
 }

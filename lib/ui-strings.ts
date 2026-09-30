@@ -11,6 +11,11 @@ export const ui = {
     openInMaps: 'Haritada aç',
     mapTitle: 'Mekânın konumu, Google Haritalar',
   },
+  notFound: {
+    title: 'Sayfa bulunamadı',
+    text: 'Aradığınız sayfa taşınmış ya da hiç var olmamış olabilir.',
+    home: 'Ana sayfaya dön',
+  },
   draftMode: {
     label: 'Önizleme modu',
     exit: 'Çık',

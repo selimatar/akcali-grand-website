@@ -4,8 +4,9 @@ Introduction-only website (Turkish) for Akcali Garden of Eden, a wedding venue i
 Next.js (App Router) + Tailwind CSS v4 + Sanity CMS (Studio embedded at `/studio`), deployed on
 Vercel.
 
-> This README is expanded as the build progresses (webhook, deployment and the editor guide land in
-> later steps).
+Contents: [Setup](#setup) · [Environment variables](#environment-variables) ·
+[Sanity project](#sanity-project) · [Publishing and caching](#publishing-and-caching) ·
+[Deployment](#deployment-vercel) · [SEO](#seo) · [Editor guide (Türkçe)](#editör-rehberi-türkçe)
 
 ## Requirements
 
@@ -152,3 +153,57 @@ values and `px` strings in inline styles inside `components/` and `app/`.
 Cormorant Garamond and Jost are self-hosted through `next/font/google` (`lib/fonts.ts`) with the
 `latin` and `latin-ext` subsets, which cover ç, ğ, ı, İ, ö, ş, ü. The document is `lang="tr"`, so CSS
 `text-transform: uppercase` produces correct Turkish capitals (i → İ).
+
+## Homepage sections
+
+Sections render in this order when they have content: Hero → Salonumuz → Mekânlar → Hizmetler →
+Galeri → Yorumlar → Konum. A section with no content is hidden and drops out of the menu and the
+numbering (`lib/sections.ts`).
+
+**Galeri** and **Yorumlar** are switched off for launch (`DISABLED_SECTIONS` in `lib/sections.ts`).
+Their Studio content and queries stay in place; to launch one, build its section component, add it
+to the renderers in `app/(site)/page.tsx`, and remove its key from `DISABLED_SECTIONS`.
+
+## SEO
+
+- **Metadata** (`lib/seo.ts`): title, description and share image come from Ana Sayfa → SEO, falling
+  back to Site Ayarları → Varsayılan SEO, then the venue name and hero photo. Canonical URL `/`,
+  `og:locale` `tr_TR`, 1200×630 JPEG share image through the Sanity CDN.
+- **Structured data:** `LocalBusiness` + `EventVenue` JSON-LD with address, coordinates, map link,
+  social profiles, capacities, spaces and services. No reviews or ratings.
+- **`/sitemap.xml`** lists the homepage (last content change as `lastmod`); **`/robots.txt`**
+  disallows `/studio` and `/api/`.
+- **Only production is indexable.** On Vercel preview deployments (`VERCEL_ENV` ≠ `production`),
+  and in local builds against a non-production dataset, pages are `noindex` and `robots.txt`
+  disallows everything. `/studio` is always `noindex` (meta tag and `X-Robots-Tag` header).
+- **404:** a Turkish "Sayfa bulunamadı" page (`app/not-found.tsx`).
+
+Lighthouse (mobile, production build, seeded placeholder content): Performance 90, Accessibility
+100, Best Practices 100, SEO 100 (TBT 0 ms, CLS 0). The LCP element is currently the hero logo; the
+official SVG logo will make it lighter still. Recheck once the real hero photo is in, because it
+then becomes the LCP element.
+
+## Deployment (Vercel)
+
+1. **Import** the GitHub repository in Vercel (framework: Next.js; defaults are fine).
+2. **Environment variables** (Project → Settings → Environment Variables):
+
+   | Variable                         | Production         | Preview       |
+   | -------------------------------- | ------------------ | ------------- |
+   | `NEXT_PUBLIC_SITE_URL`           | `https://<domain>` | optional      |
+   | `NEXT_PUBLIC_SANITY_PROJECT_ID`  | project ID         | project ID    |
+   | `NEXT_PUBLIC_SANITY_DATASET`     | `production`       | `development` |
+   | `NEXT_PUBLIC_SANITY_API_VERSION` | `2026-09-01`       | `2026-09-01`  |
+   | `SANITY_API_READ_TOKEN`          | Viewer token       | Viewer token  |
+   | `SANITY_REVALIDATE_SECRET`       | long random string | —             |
+
+   Don't set `SANITY_API_WRITE_TOKEN` on Vercel; it's only for the local seed script.
+
+3. **Domain:** add it in Vercel, then add `https://<domain>` to the Sanity project's **CORS
+   origins** with _Allow credentials_ (the Studio at `/studio` needs it).
+4. **Webhook:** create it as described in [Webhook](#webhook-on-demand-revalidation), pointing to
+   `https://<domain>/api/revalidate`.
+5. **Content:** the `production` dataset must hold the real content before launch (the seed script
+   only writes to `development`).
+6. **Check** after the first deploy: `/robots.txt` allows crawling, `/sitemap.xml` shows the domain,
+   publishing a change in the Studio shows up on the next page load, and `/studio` logs in.

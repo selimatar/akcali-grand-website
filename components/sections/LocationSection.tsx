@@ -2,6 +2,7 @@ import { Container, Section } from '@/components/ui/Section'
 import { LocationMap } from '@/components/ui/LocationMap'
 import { headingIdFor, SectionHeader } from '@/components/ui/SectionHeader'
 import type { HomePage, Settings } from '@/lib/content'
+import { mapsHref } from '@/lib/maps'
 import type { VisibleSection } from '@/lib/sections'
 import { ui } from '@/lib/ui-strings'
 
@@ -9,14 +10,6 @@ type Props = {
   section: VisibleSection
   content: HomePage['locationSection'] | undefined
   settings: Settings | null
-}
-
-/** "Haritada aç" target: the editor's Google Maps link, else a search for the coordinates. */
-function mapsHref(settings: Settings | null): string | null {
-  if (settings?.mapsUrl) return settings.mapsUrl
-  const location = settings?.location
-  if (location?.lat == null || location.lng == null) return null
-  return `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`
 }
 
 /** 07 Konum: address, directions and a map link beside the (lazy) map. */
