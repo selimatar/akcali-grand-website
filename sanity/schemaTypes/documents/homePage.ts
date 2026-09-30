@@ -3,13 +3,13 @@ import { defineArrayMember, defineField, defineType } from 'sanity'
 
 import { SINGLETONS } from '../../singletons'
 
-const header = (group: string) =>
-  defineField({
-    name: 'header',
-    title: 'Bölüm başlığı',
-    type: 'sectionHeader',
-    group,
-  })
+// No `group` here: it lives inside each section object, and groups (the tabs) are only defined on
+// the document. The section object itself is assigned to its tab.
+const header = defineField({
+  name: 'header',
+  title: 'Bölüm başlığı',
+  type: 'sectionHeader',
+})
 
 /**
  * The homepage: one tab per design section. Lists that editors reorder (Mekânlar, Hizmetler, Galeri,
@@ -65,7 +65,7 @@ export const homePage = defineType({
       group: 'about',
       options: { collapsible: false },
       fields: [
-        header('about'),
+        header,
         defineField({
           name: 'body',
           title: 'Tanıtım metni',
@@ -120,7 +120,7 @@ export const homePage = defineType({
       group: 'spaces',
       options: { collapsible: false },
       fields: [
-        header('spaces'),
+        header,
         defineField({
           name: 'intro',
           title: 'Giriş metni',
@@ -140,7 +140,7 @@ export const homePage = defineType({
       group: 'amenities',
       options: { collapsible: false },
       fields: [
-        header('amenities'),
+        header,
         defineField({
           name: 'image',
           title: 'Fotoğraf',
@@ -158,7 +158,7 @@ export const homePage = defineType({
       group: 'gallery',
       options: { collapsible: false },
       fields: [
-        header('gallery'),
+        header,
         defineField({
           name: 'intro',
           title: 'Giriş metni',
@@ -184,7 +184,7 @@ export const homePage = defineType({
       type: 'object',
       group: 'testimonials',
       options: { collapsible: false },
-      fields: [header('testimonials')],
+      fields: [header],
     }),
 
     defineField({
@@ -195,7 +195,7 @@ export const homePage = defineType({
       group: 'location',
       options: { collapsible: false },
       fields: [
-        header('location'),
+        header,
         defineField({
           name: 'directions',
           title: 'Ulaşım bilgileri',
