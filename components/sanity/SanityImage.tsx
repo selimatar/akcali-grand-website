@@ -38,7 +38,7 @@ type Props = BaseProps &
   )
 
 /**
- * Renders a Sanity image through the Sanity image CDN: responsive srcset, AVIF/WebP, hotspot-aware
+ * Renders a Sanity image through the Sanity image CDN: responsive srcset, WebP, hotspot-aware
  * crop and a blur placeholder. It's a server component (the loader is configured globally in
  * next.config.ts), so no image code ships to the browser. Renders nothing when the image has no
  * asset, so callers can show their own empty state.

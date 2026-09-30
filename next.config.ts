@@ -3,7 +3,7 @@ import type { NextConfig } from 'next'
 const nextConfig: NextConfig = {
   poweredByHeader: false,
   images: {
-    // Sanity's image CDN resizes and serves AVIF/WebP; see sanity/lib/image-loader.ts.
+    // Sanity's image CDN resizes and serves WebP; see sanity/lib/image-loader.ts.
     loader: 'custom',
     loaderFile: './sanity/lib/image-loader.ts',
   },

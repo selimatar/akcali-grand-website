@@ -29,7 +29,7 @@ export function hasAsset<T extends { asset: { _id: string } | null } | null | un
 
 /**
  * Image URL through Sanity's image pipeline. With both width and height the crop is centered on
- * the editor's hotspot; `auto('format')` serves AVIF/WebP to browsers that accept them.
+ * the editor's hotspot; `auto('format')` serves WebP to browsers that accept it.
  */
 export function imageUrl(
   image: ImageSource,

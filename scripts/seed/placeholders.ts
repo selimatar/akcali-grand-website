@@ -43,7 +43,8 @@ export async function renderPlaceholder(image: PlaceholderImage): Promise<Buffer
 
   // Keep the caption inside the centre of the frame so it survives cover-cropping in the grid.
   const maxChars = Math.max(18, Math.floor((unit * 0.8) / (fontSize * 0.62)))
-  const lines = ['YER TUTUCU FOTOĞRAF', ...wrap(image.description, maxChars)]
+  const lines =
+    image.caption === false ? [] : ['YER TUTUCU FOTOĞRAF', ...wrap(image.description, maxChars)]
   const blockHeight = lines.length * lineHeight
   const startY = Math.round((height - blockHeight) / 2 + fontSize)
   const startX = Math.round((width - unit * 0.8) / 2)
