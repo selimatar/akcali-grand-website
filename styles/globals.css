@@ -1,0 +1,366 @@
+@import 'tailwindcss';
+
+/*
+ * Design tokens — the single source of truth for every color, type size, spacing step, radius and
+ * motion value in the site. Values are taken 1:1 from the approved homepage design
+ * (Akcali Garden of Eden – Homepage.dc.html). Components must use these tokens through Tailwind
+ * utilities; `pnpm lint` rejects raw hex colors and px arbitrary values in components.
+ */
+
+@theme {
+  /* ---------------------------------------------------------------- Colors */
+  --color-*: initial;
+
+  --color-night: #0e0d0b; /* dark sections, page background */
+  --color-night-soft: #15130f; /* hero background behind the photo */
+  --color-night-raised: #1c1915; /* image placeholder on dark */
+  --color-ivory: #faf8f4; /* light sections; text on dark */
+  --color-sand: #f2eee6; /* location section */
+  --color-stone: #e9e4da; /* image placeholder on light */
+  --color-stone-deep: #e4ded2; /* map placeholder */
+  --color-white: #ffffff; /* testimonial card */
+
+  --color-ink: #1a1917; /* headings / primary text on light */
+  --color-ink-soft: #2e2b27; /* body text on light */
+  --color-ink-muted: #5c5750; /* meta / eyebrows on light */
+
+  --color-line: #e2dcd0; /* rules on ivory */
+  --color-line-sand: #ddd6c8; /* rules on sand */
+  --color-line-dashed: #a39b8c; /* placeholder badge border */
+
+  --color-gold: #b8963e; /* accents; gold text on dark only (6.9:1) */
+  --color-gold-deep: #9a7a2a; /* gold text on light surfaces (≈3.8:1 on ivory, large text only) */
+  --color-gold-glow: rgb(184 150 62 / 0.35); /* map pin halo */
+  --color-gold-fade: rgb(184 150 62 / 0); /* divider gradient start */
+
+  /* Ivory at the opacities the design uses for text and rules on dark surfaces */
+  --color-on-dark-strong: rgb(250 248 244 / 0.85);
+  --color-on-dark-body: rgb(250 248 244 / 0.78);
+  --color-on-dark-soft: rgb(250 248 244 / 0.72);
+  --color-on-dark-muted: rgb(250 248 244 / 0.6);
+  --color-on-dark-subtle: rgb(250 248 244 / 0.55);
+  --color-on-dark-button: rgb(250 248 244 / 0.3);
+  --color-on-dark-outline: rgb(250 248 244 / 0.25);
+  --color-on-dark-track: rgb(250 248 244 / 0.2);
+  --color-on-dark-rule: rgb(250 248 244 / 0.14);
+  --color-on-dark-rule-soft: rgb(250 248 244 / 0.12);
+
+  --color-glass: rgb(14 13 11 / 0.62); /* floating menu pill */
+  --color-scrim: rgb(10 9 8 / 0.96); /* lightbox backdrop */
+  --color-caption-scrim: rgb(14 13 11 / 0.72); /* gallery caption gradient end */
+
+  /* ---------------------------------------------------------------- Typography */
+  --font-*: initial;
+  --font-display: var(--font-cormorant), 'Cormorant Garamond', Georgia, serif;
+  --font-sans: var(--font-jost), 'Jost', ui-sans-serif, system-ui, sans-serif;
+
+  --text-*: initial;
+  --text-display: clamp(2.375rem, 6vw, 4rem); /* 38 → 64: section h2 */
+  --text-display--line-height: 1.05;
+  --text-display--letter-spacing: -0.01em;
+  --text-menu: clamp(2.25rem, 8vw, 4rem); /* 36 → 64: overlay nav links */
+  --text-menu--line-height: 1.2;
+  --text-title-lg: clamp(1.875rem, 4vw, 2.5rem); /* 30 → 40: space name */
+  --text-title-lg--line-height: 1.1;
+  --text-tagline: clamp(1.375rem, 4.4vw, 2rem); /* 22 → 32: hero tagline */
+  --text-tagline--line-height: 1.3;
+  --text-quote-mark: 3.5rem; /* 56: testimonial “ */
+  --text-quote-mark--line-height: 0.6;
+  --text-numeral: 2rem; /* 32: pillar / amenity numbers */
+  --text-numeral--line-height: 1;
+  --text-title: 1.75rem; /* 28: amenity h3, capacity value */
+  --text-title--line-height: 1.15;
+  --text-title-sm: 1.5rem; /* 24: lightbox caption */
+  --text-title-sm--line-height: normal;
+  --text-quote: 1.375rem; /* 22: testimonial quote */
+  --text-quote--line-height: 1.45;
+  --text-body-lg: 1.0625rem; /* 17: about copy, address */
+  --text-body-lg--line-height: 1.75;
+  --text-body: 1rem; /* 16: intros, descriptions */
+  --text-body--line-height: 1.7;
+  --text-body-sm: 0.9375rem; /* 15: footer copy, labels */
+  --text-body-sm--line-height: 1.7;
+  --text-small: 0.875rem; /* 14: pillar text, direction times */
+  --text-small--line-height: 1.6;
+  --text-meta: 0.8125rem; /* 13: card meta, opening hours */
+  --text-meta--line-height: normal;
+  --text-label: 0.75rem; /* 12: eyebrows, buttons, small numbers */
+  --text-label--line-height: normal;
+  --text-micro: 0.6875rem; /* 11: footer labels, dt, scroll cue */
+  --text-micro--line-height: normal;
+
+  --leading-auto: normal;
+  --leading-body: 1.7;
+
+  --tracking-display: -0.01em;
+  --tracking-meta: 0.08em; /* footer bottom row, menu contact line */
+  --tracking-caption: 0.12em; /* gallery tile caption */
+  --tracking-num: 0.2em; /* small numbers, lightbox counter */
+  --tracking-label: 0.24em; /* capacity dt */
+  --tracking-button: 0.28em; /* CTAs, menu pill, footer labels */
+  --tracking-eyebrow: 0.32em; /* section eyebrows */
+  --tracking-cue: 0.36em; /* "Keşfedin" scroll cue */
+
+  /* ---------------------------------------------------------------- Spacing (fluid steps; fixed steps use the 4px scale) */
+  --spacing-section: clamp(4rem, 10vw, 8rem); /* section block padding */
+  --spacing-gutter: clamp(1.5rem, 5vw, 4rem); /* section inline padding */
+  --spacing-gutter-wide: clamp(1rem, 4vw, 4rem); /* gallery inline padding */
+  --spacing-split: clamp(3rem, 6vw, 6rem); /* two-column gap */
+  --spacing-stack: clamp(3rem, 6vw, 4rem); /* header → content (spaces) */
+  --spacing-stack-sm: clamp(2rem, 5vw, 4rem); /* header → content (gallery, testimonials) */
+  --spacing-card-x: clamp(1.5rem, 3vw, 2rem); /* space card column gap */
+  --spacing-card-y: clamp(3rem, 5vw, 4rem); /* space card row gap */
+  --spacing-footer-top: clamp(4rem, 8vw, 6rem);
+  --spacing-menu-x: clamp(1.5rem, 6vw, 6rem);
+  --spacing-gallery-row: clamp(9.375rem, 20vw, 15rem); /* 150 → 240 */
+  --spacing-pill: 2.9375rem; /* 47: menu pill height */
+  --spacing-tap: 2.75rem; /* 44: minimum round button */
+  --spacing-hero-min: 35rem; /* 560: hero min height */
+  --spacing-logo-hero: min(78vw, 26.25rem); /* hero logo width */
+  --spacing-logo-footer: 12.5rem; /* 200: footer logo width */
+  --spacing-wide-min: 15rem; /* 240: featured space image min height */
+
+  /* ---------------------------------------------------------------- Widths */
+  --container-content: 75rem; /* 1200 */
+  --container-wide: 82.5rem; /* 1320: gallery */
+  --container-measure: 35rem; /* 560: space description */
+  --container-measure-sm: 30rem; /* 480: gallery intro */
+  --container-aside: 25rem; /* 400: section intro beside heading */
+  --container-lightbox: 62.5rem; /* 1000 */
+
+  /* ---------------------------------------------------------------- Radii */
+  --radius-*: initial;
+  --radius-none: 0;
+  --radius-pill: 999px;
+
+  /* ---------------------------------------------------------------- Motion */
+  --ease-cue: cubic-bezier(0.6, 0, 0.3, 1);
+  --ease-out-soft: cubic-bezier(0.22, 1, 0.36, 1);
+  --animate-cue: cue 2.4s var(--ease-cue) infinite;
+
+  @keyframes cue {
+    0% {
+      transform: scaleY(0);
+      transform-origin: top;
+    }
+    45% {
+      transform: scaleY(1);
+      transform-origin: top;
+    }
+    55% {
+      transform: scaleY(1);
+      transform-origin: bottom;
+    }
+    100% {
+      transform: scaleY(0);
+      transform-origin: bottom;
+    }
+  }
+
+  @keyframes reveal {
+    from {
+      opacity: 0;
+      translate: 0 1rem;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+}
+
+/*
+ * Surface-aware tokens. Every section sets data-surface; components use `text-fg`, `text-accent`,
+ * `border-rule`… and get the right value for the background they sit on. Gold text is only ever
+ * `accent`, which resolves to gold-deep on light surfaces so it keeps AA contrast.
+ */
+@theme inline {
+  --color-fg: var(--surface-fg);
+  --color-fg-body: var(--surface-fg-body);
+  --color-fg-muted: var(--surface-fg-muted);
+  --color-eyebrow: var(--surface-eyebrow);
+  --color-accent: var(--surface-accent);
+  --color-rule: var(--surface-rule);
+  --color-focus: var(--surface-focus);
+}
+
+@layer base {
+  :root,
+  [data-surface='light'] {
+    --surface-bg: var(--color-ivory);
+    --surface-fg: var(--color-ink);
+    --surface-fg-body: var(--color-ink-soft);
+    --surface-fg-muted: var(--color-ink-muted);
+    --surface-eyebrow: var(--color-ink-muted);
+    --surface-accent: var(--color-gold-deep);
+    --surface-rule: var(--color-line);
+    --surface-focus: var(--color-ink);
+    --surface-link-hover: var(--color-ink);
+  }
+
+  [data-surface='sand'] {
+    --surface-bg: var(--color-sand);
+    --surface-rule: var(--color-line-sand);
+  }
+
+  [data-surface='dark'] {
+    --surface-bg: var(--color-night);
+    --surface-fg: var(--color-ivory);
+    --surface-fg-body: var(--color-on-dark-body);
+    --surface-fg-muted: var(--color-on-dark-muted);
+    --surface-eyebrow: var(--color-gold);
+    --surface-accent: var(--color-gold);
+    --surface-rule: var(--color-on-dark-rule);
+    --surface-focus: var(--color-gold);
+    --surface-link-hover: var(--color-gold);
+  }
+
+  [data-surface] {
+    background-color: var(--surface-bg);
+    color: var(--surface-fg);
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background-color: var(--color-night);
+    color: var(--color-ink);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  a {
+    color: inherit;
+    text-decoration-color: var(--color-gold);
+    text-underline-offset: 4px;
+  }
+
+  a:hover {
+    color: var(--surface-link-hover);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--surface-focus);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+
+    *,
+    ::before,
+    ::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------- Layout utilities (intrinsic grids from the design) */
+
+/* About, Amenities: two columns once both fit at 420px (≈1000px viewport) */
+@utility grid-split {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 26.25rem), 1fr));
+}
+
+/* Location: two columns once both fit at 380px (≈910px viewport) */
+@utility grid-split-sm {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 23.75rem), 1fr));
+}
+
+/* Space cards: 340px min (2 columns ≈790px, 3 columns ≈1210px) */
+@utility grid-cards {
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 21.25rem), 1fr));
+}
+
+@utility grid-pillars {
+  grid-template-columns: repeat(auto-fit, minmax(9.375rem, 1fr));
+}
+
+@utility grid-footer {
+  grid-template-columns: repeat(auto-fit, minmax(12.5rem, 1fr));
+}
+
+@utility grid-numbered {
+  grid-template-columns: 3.5rem 1fr;
+}
+
+@utility grid-gallery {
+  grid-template-columns: repeat(auto-fill, minmax(9.375rem, 1fr));
+  grid-auto-rows: var(--spacing-gallery-row);
+  grid-auto-flow: dense;
+}
+
+/* ---------------------------------------------------------------- Surfaces & ornaments */
+
+@utility bg-hatch-light {
+  background:
+    repeating-linear-gradient(135deg, rgb(26 25 23 / 0.05) 0 1px, transparent 1px 12px),
+    var(--color-stone);
+}
+
+@utility bg-hatch-map {
+  background:
+    repeating-linear-gradient(135deg, rgb(26 25 23 / 0.05) 0 1px, transparent 1px 12px),
+    var(--color-stone-deep);
+}
+
+@utility bg-hatch-dark {
+  background:
+    repeating-linear-gradient(135deg, rgb(250 248 244 / 0.035) 0 1px, transparent 1px 14px),
+    var(--color-night-raised);
+}
+
+@utility bg-hero-overlay {
+  background:
+    radial-gradient(ellipse 60% 45% at 50% 50%, rgb(14 13 11 / 0.45) 0%, rgb(14 13 11 / 0) 100%),
+    linear-gradient(
+      180deg,
+      rgb(14 13 11 / 0.55) 0%,
+      rgb(14 13 11 / 0.4) 45%,
+      rgb(14 13 11 / 0.8) 100%
+    );
+}
+
+@utility bg-caption-scrim {
+  background: linear-gradient(180deg, transparent 45%, var(--color-caption-scrim) 100%);
+}
+
+@utility glass {
+  background-color: var(--color-glass);
+  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(10px);
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Tracked uppercase text is optically off-center; pad the start by the same tracking. */
+@utility optical-center-cue {
+  padding-inline-start: var(--tracking-cue);
+}
+
+/* Subtle fade/rise as content scrolls into view. CSS-only (no JS), progressive enhancement:
+   browsers without scroll-driven animations, and reduced-motion users, just see the content. */
+@utility reveal {
+  @media (prefers-reduced-motion: no-preference) {
+    @supports (animation-timeline: view()) {
+      animation: reveal linear both;
+      animation-timeline: view();
+      animation-range: entry 0% entry 70%;
+    }
+  }
+}

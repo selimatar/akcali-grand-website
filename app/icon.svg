@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- Interim favicon taken from the design bundle's thumbnail mark. Replace with the official logo mark. -->
+  <rect width="64" height="64" fill="#0E0D0B"/>
+  <text x="32" y="45" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="40" fill="#B8963E">A</text>
+  <line x1="20" y1="52" x2="44" y2="52" stroke="#B8963E" stroke-width="2"/>
+</svg>

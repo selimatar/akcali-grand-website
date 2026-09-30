@@ -1,0 +1,7 @@
+ignoredBuiltDependencies:
+  - sharp
+  - unrs-resolver
+
+# Only install versions that have been public for at least a day (minutes).
+# Guards against freshly published (possibly compromised or not-yet-propagated) releases.
+minimumReleaseAge: 1440
