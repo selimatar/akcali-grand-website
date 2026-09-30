@@ -4,6 +4,9 @@
 export const ui = {
   brandName: 'Akcali Garden of Eden', // accessible name of the logo asset in /public/brand
   skipToContent: 'İçeriğe geç',
+  spaces: {
+    guestsUnit: 'davetli', // "650 davetli"
+  },
   hero: {
     scrollCue: 'Keşfedin',
   },
